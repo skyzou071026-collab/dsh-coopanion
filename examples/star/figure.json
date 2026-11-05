@@ -1,0 +1,235 @@
+{
+  "manifest": 2,
+  "api": 2,
+  "id": "paper-star",
+  "version": "2.0.0",
+  "name": {
+    "zh": "纸星星",
+    "en": "Paper Star"
+  },
+  "about": {
+    "zh": "使用上游共享动作系统的 SVG 星星示例，支持换色、表情、说话和拖拽。"
+  },
+  "author": "takboo",
+  "license": "AGPL-3.0-or-later",
+  "entry": "figure.js",
+  "export": "createStarBody",
+  "axes": [
+    {
+      "id": "colour",
+      "name": {
+        "zh": "颜色"
+      },
+      "options": [
+        {
+          "id": "day",
+          "name": {
+            "zh": "暖黄"
+          }
+        },
+        {
+          "id": "night",
+          "name": {
+            "zh": "夜蓝"
+          }
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "id": "day",
+      "name": {
+        "zh": "暖黄"
+      },
+      "pick": {
+        "colour": "day"
+      },
+      "accent": "#ad7418"
+    },
+    {
+      "id": "night",
+      "name": {
+        "zh": "夜蓝"
+      },
+      "pick": {
+        "colour": "night"
+      },
+      "accent": "#477db8"
+    }
+  ],
+  "vocab": [
+    {
+      "id": "neutral",
+      "kind": "expression",
+      "names": {
+        "zh": [
+          "平静"
+        ]
+      },
+      "about": {
+        "zh": "neutral"
+      },
+      "seconds": 1,
+      "lasting": false
+    },
+    {
+      "id": "thinking",
+      "kind": "expression",
+      "names": {
+        "zh": [
+          "思考"
+        ]
+      },
+      "about": {
+        "zh": "thinking"
+      },
+      "seconds": 1,
+      "lasting": false
+    },
+    {
+      "id": "determined",
+      "kind": "expression",
+      "names": {
+        "zh": [
+          "认真"
+        ]
+      },
+      "about": {
+        "zh": "determined"
+      },
+      "seconds": 1,
+      "lasting": false
+    },
+    {
+      "id": "worried",
+      "kind": "expression",
+      "names": {
+        "zh": [
+          "担心"
+        ]
+      },
+      "about": {
+        "zh": "worried"
+      },
+      "seconds": 1,
+      "lasting": false
+    },
+    {
+      "id": "happy",
+      "kind": "expression",
+      "names": {
+        "zh": [
+          "开心"
+        ]
+      },
+      "about": {
+        "zh": "happy"
+      },
+      "seconds": 1,
+      "lasting": false
+    },
+    {
+      "id": "sad",
+      "kind": "expression",
+      "names": {
+        "zh": [
+          "伤心"
+        ]
+      },
+      "about": {
+        "zh": "sad"
+      },
+      "seconds": 1,
+      "lasting": false
+    },
+    {
+      "id": "stand",
+      "kind": "motion",
+      "names": {
+        "zh": [
+          "站起来"
+        ]
+      },
+      "about": {
+        "zh": "stand"
+      },
+      "seconds": 1,
+      "lasting": false
+    },
+    {
+      "id": "wave",
+      "kind": "motion",
+      "names": {
+        "zh": [
+          "挥手"
+        ]
+      },
+      "about": {
+        "zh": "wave"
+      },
+      "seconds": 1,
+      "lasting": false
+    },
+    {
+      "id": "jump",
+      "kind": "motion",
+      "names": {
+        "zh": [
+          "跳跃"
+        ]
+      },
+      "about": {
+        "zh": "jump"
+      },
+      "seconds": 1,
+      "lasting": false
+    },
+    {
+      "id": "walk",
+      "kind": "motion",
+      "names": {
+        "zh": [
+          "走路"
+        ]
+      },
+      "about": {
+        "zh": "walk"
+      },
+      "seconds": 1,
+      "lasting": false
+    },
+    {
+      "id": "sleep",
+      "kind": "motion",
+      "names": {
+        "zh": [
+          "睡觉"
+        ]
+      },
+      "about": {
+        "zh": "sleep"
+      },
+      "seconds": 1,
+      "lasting": true
+    },
+    {
+      "id": "dance",
+      "kind": "motion",
+      "names": {
+        "zh": [
+          "跳舞"
+        ]
+      },
+      "about": {
+        "zh": "dance"
+      },
+      "seconds": 1,
+      "lasting": false
+    }
+  ],
+  "sounds": {},
+  "can": {
+    "walk": true
+  }
+}

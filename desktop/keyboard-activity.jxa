@@ -1,0 +1,27 @@
+// Query only aggregate event ages; event-listening authorization is a separate API.
+// No event tap, event objects, key codes, text or combined mouse/keyboard idle time.
+ObjC.import('Foundation');
+ObjC.bindFunction('CGEventSourceSecondsSinceLastEventType', ['double', ['int', 'unsigned int']]);
+ObjC.bindFunction('getppid', ['int', []]);
+ObjC.bindFunction('puts', ['int', ['char *']]);
+ObjC.bindFunction('fflush', ['int', ['void *']]);
+ObjC.bindFunction('usleep', ['int', ['unsigned int']]);
+var combinedSessionState = 0, keyDown = 10, keyUp = 11;
+function sample() {
+  try {
+    var down = $.CGEventSourceSecondsSinceLastEventType(combinedSessionState, keyDown);
+    var up = $.CGEventSourceSecondsSinceLastEventType(combinedSessionState, keyUp);
+    // Reject API sentinels as well as negative/nonfinite results (not false idle).
+    if (!isFinite(down) || !isFinite(up) || down < 0 || up < 0 || down >= 1e10 || up >= 1e10) return 'unknown';
+    return Math.min(down, up) < 1.5 ? 'active' : 'idle';
+  } catch (_) { return 'unknown'; }
+}
+function run(args) {
+  if (args[0] === '--once') return sample();
+  var parent = $.getppid();
+  while (parent > 1 && $.getppid() === parent) {
+    $.puts(sample());
+    $.fflush(null);
+    $.usleep(500000);
+  }
+}

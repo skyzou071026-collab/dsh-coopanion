@@ -1,0 +1,11 @@
+import assert from 'node:assert/strict';
+import { readFile } from 'node:fs/promises';
+import { join } from 'node:path';
+import { pathToFileURL } from 'node:url';
+const [runtime, version, metadataFile] = process.argv.slice(2);
+const { baselineManifest } = JSON.parse(await readFile(metadataFile, 'utf8'));
+const { evaluatePluginCompatibility } = await import(pathToFileURL(join(runtime, 'node_modules/@deepseek-ai/dsh-app-boot/lib/index.js')).href);
+const result = evaluatePluginCompatibility(baselineManifest, {}, version);
+if (baselineManifest.engines.dsh.split(' || ').includes(version)) assert.equal(result, undefined, 'Declared baseline accepts the host');
+else assert(result, 'Unchanged baseline must reject the new host');
+console.log('Official admission policy verified against the unchanged baseline manifest.');

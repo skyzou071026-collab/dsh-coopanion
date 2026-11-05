@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self'; frame-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
+  <link rel="icon" href="data:,">
+  <title>DeepSeek 大肥鱼 · Harness</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <aside id="demo" hidden>
+    <div class="brand">dsh <span>coopanion</span></div>
+    <span class="eyebrow">DEEPSEEK WHALE · DESKTOP COMPANION</span>
+    <h1 data-i18n="demoTitle">工作的时候，<br>大肥鱼陪着。</h1>
+    <p data-i18n="demoIntro">住在桌面上的 DeepSeek 大肥鱼。<br>点点她、拖着她走，或和她说句话。</p>
+    <div class="demo-status"><i></i><span data-i18n="demoStatus">浏览器演示 · 模拟 Harness 事件</span></div>
+    <div class="demo-buttons">
+      <button data-demo="thinking" data-i18n="demo:thinking">思考</button><button data-demo="talking" data-i18n="demo:talking">回复</button><button data-demo="working" data-i18n="demo:working">工作</button><button data-demo="waiting" data-i18n="demo:waiting">等你确认</button><button data-demo="happy" data-i18n="demo:happy">任务完成</button><button data-demo="error" data-i18n="demo:error">遇到问题</button>
+      <button data-demo="idle" data-i18n="demo:idle">空闲</button><button data-demo="long" data-i18n="demo:long">长回复</button><button data-demo="background" data-i18n="demo:background">后台完成</button>
+    </div>
+    <p class="hint" data-i18n="demoHint">桌面插件会订阅真实任务，无需另填 API Key。</p>
+    <div class="demo-footer">DEEPSEEK HARNESS PLUGIN <span>01 / THE WHALE</span></div>
+  </aside>
+  <main id="stage" aria-label="桌宠活动区域" data-i18n-aria-label="stage">
+    <div id="body-layer" aria-hidden="true"></div>
+    <section id="bubble" class="bubble interactive" hidden aria-live="polite">
+      <button id="dismiss" class="b-close" aria-label="收起气泡" data-i18n-aria-label="dismiss">×</button>
+      <p id="bubble-text" class="b-text"></p>
+      <div class="reply-actions"><button id="bubble-reveal" data-i18n="reveal">立即显示</button><button id="bubble-expand" hidden data-i18n="expand">展开完整回复 ↗</button></div>
+      <div class="bubble-footer"><span id="bubble-status"></span><button id="bubble-session" hidden data-i18n="back">回到会话 ↗</button></div>
+    </section>
+    <section id="interaction" class="bubble interaction interactive" hidden aria-live="polite" aria-labelledby="interaction-title">
+      <button id="interaction-close" class="b-close" aria-label="先收起来" data-i18n-aria-label="notice:close">×</button>
+      <strong id="interaction-title"></strong><p id="interaction-preview" class="b-text"></p>
+      <div class="reply-actions"><button id="interaction-open" data-i18n="notice:open">回到源会话 ↗</button><button id="interaction-pending" hidden data-i18n="notice:pending">等你的一点小事</button></div>
+    </section>
+    <div id="companion-feedback" class="bubble companion-feedback" hidden role="status"></div>
+    <section id="companion-invitation" class="bubble companion-invitation interactive" hidden role="group" aria-labelledby="companion-title">
+      <strong id="companion-title" data-i18n="companionInvite">陪我活动一下？</strong>
+      <div class="reply-actions"><button id="companion-accept" data-i18n="companionTogether">一起活动</button><button id="companion-later" data-i18n="companionLater">稍后</button><button id="companion-quiet" data-i18n="companionQuietToday">今天安静</button></div>
+    </section>
+    <section id="requests" class="panel requests inbox interactive" hidden role="dialog" aria-labelledby="requests-title">
+      <header><span class="conversation-heading"><small id="inbox-caption" data-i18n="notice:inboxCaption">回复与待办</small><strong id="requests-title" data-i18n="notice:inboxTitle">给你带回来了</strong></span><button id="requests-close" aria-label="先收起来" data-i18n-aria-label="notice:close">×</button></header>
+      <p id="inbox-count" class="inbox-count"></p>
+      <div id="inbox-list" class="inbox-list"><div id="request-list" class="request-list"></div><div id="inbox-issues" class="inbox-section"></div><div id="inbox-replies" class="inbox-section"></div><p id="inbox-empty" hidden></p></div>
+      <p id="request-feedback" role="status"></p>
+      <footer><span id="inbox-focus"></span></footer>
+    </section>
+    <section id="reader" class="panel reader interactive" hidden role="dialog" aria-labelledby="reader-title">
+      <header><span class="conversation-heading"><small id="reader-caption" data-i18n="notice:replyCaption">捎回来的回复</small><strong id="reader-title"></strong></span><button id="reader-close" aria-label="收起完整回复" data-i18n-aria-label="readerClose">×</button></header>
+      <small id="reader-detail" class="reader-detail"></small>
+      <div id="reader-text" class="reader-text" tabindex="0"></div>
+      <footer class="reader-footer"><button id="reader-prev" aria-label="上一份回复" data-i18n-aria-label="notice:previous">‹</button><span id="reader-count"></span><button id="reader-next" aria-label="下一份回复" data-i18n-aria-label="notice:next">›</button><button id="reader-inbox" class="session-link" hidden data-i18n="notice:inbox">收件箱 ↩</button><button id="reader-session" class="session-link" data-i18n="notice:continue">继续对话 ↗</button></footer>
+    </section>
+    <section id="conversations" class="panel conversations interactive" hidden>
+      <header><span class="conversation-heading"><small data-i18n="conversationsCaption">一起工作的片段</small><strong data-i18n="conversationsTitle">这次，陪哪一段？</strong></span><button id="conversations-close" aria-label="收起对话气泡" data-i18n-aria-label="conversationsClose">×</button></header>
+      <p class="conversation-intro" data-i18n="conversationsIntro">固定陪着你选的这段。后台继续工作，回复留在这里，遇到要紧事就叫你。</p>
+      <div class="conversation-tabs"><button id="sessions-all" aria-pressed="true" data-i18n="all">全部</button><button id="sessions-pending" aria-pressed="false" data-i18n="pending">待查看</button></div>
+      <label class="session-search"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 5 5"/></svg><input id="conversation-search" type="search" placeholder="找提问、项目或编号…" aria-label="搜索会话" data-i18n-aria-label="searchLabel" data-i18n-placeholder="searchPlaceholder"></label>
+      <div id="conversation-list" class="conversation-list" role="listbox" aria-label="切换当前对话" data-i18n-aria-label="switchConversation"></div>
+      <footer class="conversation-footer"><span id="conversation-count"></span><button id="conversation-open" class="session-link" data-i18n="openCurrent">打开当前会话 ↗</button></footer>
+    </section>
+    <section id="chat" class="panel interactive" hidden>
+      <header><span class="conversation-heading"><small id="chat-character">DeepSeek 大肥鱼</small><strong id="chat-title" data-i18n="chatTitle">我在，慢慢说。</strong></span><button id="chat-close" aria-label="关闭聊天" data-i18n-aria-label="chatClose">×</button></header>
+      <button id="chat-current" class="chat-current" type="button"><span><small id="chat-session-state">正在陪你聊</small><strong id="chat-session-name">还没有对话</strong><small id="chat-session-detail"></small></span><b data-i18n="changeConversation">换一段 ›</b></button>
+      <p id="chat-reply" class="chat-reply" hidden></p>
+      <button id="chat-read" class="session-link" hidden data-i18n="readFull">读完整回复 ↗</button>
+      <div class="pet-greetings" aria-label="和角色互动" data-i18n-aria-label="interact"><button data-gesture="wave" data-i18n="wave">打个招呼</button><button data-gesture="cheer" data-i18n="cheer">给我打气</button><button id="chat-session" class="session-link" data-i18n="back">回到会话 ↗</button></div>
+      <p id="chat-help">消息交给关注的会话，完成后把最终回复捎回来。</p>
+      <p id="chat-send-state" role="status" aria-live="polite"></p><form id="chat-form"><textarea id="message" rows="3" maxlength="2000" placeholder="接着这段对话说点什么…" aria-label="消息" data-i18n-aria-label="messageLabel" data-i18n-placeholder="messagePlaceholder"></textarea><div class="compose-footer"><small data-i18n="sendHint">⌘ / Ctrl + Enter 发送</small><button id="send" type="submit" data-i18n="send">捎给这段对话 ↗</button></div></form>
+    </section>
+    <section id="menu" class="menu interactive" hidden>
+      <header class="companion-heading"><span class="portrait"><img id="menu-portrait" alt="" hidden><svg id="menu-emblem" viewBox="0 0 40 40" aria-hidden="true"><path d="M8 24c0-8 6-13 14-13 7 0 11 6 11 12l4-5v8l-6 2c-4 5-15 5-20 0l-5-1 2-3Z"/><path d="M19 12c-1-5 7-7 8-2M13 28l-2 4 8-2"/><circle cx="26" cy="20" r="1"/></svg></span><span><small data-i18n="companion">桌上的小伙伴</small><strong id="menu-name">DeepSeek 大肥鱼</strong><small id="menu-state">在这里陪你</small></span><button id="menu-close" aria-label="收起伙伴菜单" data-i18n-aria-label="menuClose">×</button></header>
+      <div class="menu-primary"><button id="open-characters"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m8 3-5 3 3 5 2-1v11h8V10l2 1 3-5-5-3c-1 4-7 4-8 0Z"/></svg><span><span data-i18n="appearance">换个模样</span><small data-i18n="appearanceHint">角色 · 配色 · 动作</small></span><b>›</b></button><button id="menu-chat"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h14a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-7l-5 4v-4H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Z"/><path d="M7 9h10M7 13h6"/></svg><span><span data-i18n="say">说句话</span><small data-i18n="sayHint">接着你的会话聊</small></span><b>›</b></button></div>
+      <div class="companion-controls">
+        <label for="companion-mode" data-i18n="companionMode">自主陪伴</label><select id="companion-mode"><option value="off" data-i18n="companionOff">关闭（停止自主活动）</option><option value="quiet" data-i18n="companionQuiet">安静陪伴</option><option value="interactive" data-i18n="companionInteractive">互动陪伴</option></select>
+        <p id="companion-status" role="status"></p><button id="companion-play" data-i18n="companionTogether">一起活动</button><button id="companion-resume" data-i18n="companionResume">恢复邀请</button>
+      </div>
+      <div class="menu-switches">
+        <button id="toggle-roam" role="switch" aria-checked="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m4 18 5-5 4 3 6-10M14 6h5v5"/></svg><span><span data-i18n="roam">散散步</span><small data-i18n="roamHint">自在走动</small></span><i></i></button>
+        <button id="toggle-sleep" role="switch" aria-checked="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14A8 8 0 0 1 10 4a8 8 0 1 0 10 10Z"/><path d="M16 3v4M14 5h4"/></svg><span><span data-i18n="sleep">歇一会</span><small data-i18n="sleepHint">忙起来会醒</small></span><i></i></button>
+        <button id="toggle-notices" role="switch" aria-checked="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 17h14l-2-3V9a5 5 0 0 0-10 0v5l-2 3ZM10 21h4"/></svg><span><span data-i18n="notices">提醒我</span><small data-i18n="noticesHint">要紧事不漏掉</small></span><i></i></button>
+        <button id="toggle-sound" role="switch" aria-checked="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 4-6 5H3v6h3l6 5V4ZM16 8c3 2 3 6 0 8M19 5c5 4 5 10 0 14"/></svg><span><span data-i18n="sound">小小声</span><small data-i18n="soundHint">动作与说话音效</small></span><i></i></button>
+      </div>
+      <footer class="menu-footer"><button id="hide" data-i18n="hide">暂时藏起来</button><a href="source" download data-i18n="source" data-i18n-title="sourceHint" title="下载当前版本完整对应源码">源码 · AGPL ↗</a></footer>
+    </section>
+    <section id="characters" class="panel characters interactive" hidden>
+      <header><strong data-i18n="characters">角色与动画</strong><button id="characters-close" aria-label="关闭角色面板" data-i18n-aria-label="charactersClose">×</button></header>
+      <label for="character-select" data-i18n="selectCharacter">选择角色</label>
+      <select id="character-select" aria-label="角色" data-i18n-aria-label="character"></select>
+      <label for="character-scheme" data-i18n="outfit">配色 / 换装</label><select id="character-scheme" aria-label="角色配色" data-i18n-aria-label="characterScheme"></select>
+      <div id="character-axes" hidden></div>
+      <div id="character-preview" class="character-preview" aria-label="角色动画预览" data-i18n-aria-label="preview"></div>
+      <div class="character-actions"><select id="character-action" aria-label="预览动作" data-i18n-aria-label="previewAction"></select><button id="character-test" data-i18n="play">播放动作</button></div>
+      <p id="character-about"></p><p id="character-credit"></p>
+      <div class="character-buttons"><button id="character-use" data-i18n="useCharacter">使用角色</button><button id="character-import" data-i18n="import">导入角色包</button><button id="character-remove" disabled data-i18n="remove">删除</button></div>
+      <input id="character-file" type="file" accept=".zip" hidden>
+      <p id="character-status" role="status" data-i18n="characterHint">支持 Coopanion API 2 ZIP 角色包；角色和配色会在重启后保留。</p>
+    </section>
+    <div id="pet" class="pet interactive" hidden data-mood="idle" tabindex="0" role="button" aria-label="DeepSeek 大肥鱼，点击互动，双击聊天，右键菜单，拖动移动"></div>
+    <button id="attention" class="attention interactive" hidden aria-label="查看回复与待办" data-i18n-aria-label="notice:replies"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16v12H4Z"/><path d="m4 6 8 7 8-7"/></svg><span id="attention-count"></span></button>
+    <button id="toast" class="toast interactive" hidden><span>🐳</span><div><strong id="toast-title"></strong><p id="toast-body"></p></div><b>↗</b></button>
+  </main>
+  <script src="pet.js" type="module"></script>
+</body>
+</html>

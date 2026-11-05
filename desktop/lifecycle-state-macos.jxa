@@ -1,0 +1,17 @@
+// Inspect only three aggregate flags; never unwrap or emit the session identity dictionary.
+ObjC.import('CoreGraphics');
+var state = 'unknown';
+try {
+  var session = ObjC.castRefToObject($.CGSessionCopyCurrentDictionary());
+  function flag(key) {
+    try {
+      var value = ObjC.unwrap(session.objectForKey($(key)));
+      return value === true || value === 1 ? true : value === false || value === 0 ? false : value === undefined || value === null ? null : 'unknown';
+    } catch (_) { return 'unknown'; }
+  }
+  var locked = flag('CGSSessionScreenIsLocked');
+  if (locked === true) state = 'locked';
+  // CGSession.h defines kCGSessionOnConsoleKey as CFSTR("kCGSSessionOnConsoleKey").
+  else if ((locked === false || locked === null) && flag('kCGSSessionOnConsoleKey') === true && flag('kCGSessionLoginDoneKey') === true) state = 'unlocked';
+} catch (_) {}
+state;

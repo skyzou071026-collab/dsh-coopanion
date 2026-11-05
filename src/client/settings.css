@@ -1,0 +1,16 @@
+.dsh-coopanion-settings { display:flex; flex-direction:column; gap:16px; max-width:720px; color:var(--dsw-alias-label-primary); font:inherit; }
+.dsh-coopanion-settings h2,.dsh-coopanion-settings h3 { margin:0; font-size:16px; line-height:24px; font-weight:500; }
+.dsh-coopanion-settings p { margin:0; font-size:14px; line-height:22px; color:var(--dsw-alias-label-tertiary); }
+.dsh-coopanion-settings .pet-card { border:0.5px solid var(--dsw-alias-settings-card-stroke); background:var(--dsw-alias-settings-card-fill); border-radius:var(--dsw-radius-xl); padding:16px; display:flex; flex-direction:column; gap:16px; }
+.dsh-coopanion-settings .pet-row { display:flex; gap:16px; align-items:center; justify-content:space-between; }
+.dsh-coopanion-settings .pet-label { display:flex; flex-direction:column; gap:4px; min-width:0; }
+.dsh-coopanion-settings .pet-label label,.dsh-coopanion-settings .pet-label strong { font-size:14px; line-height:22px; font-weight:500; }
+.dsh-coopanion-settings .pet-label p { font-size:12px; line-height:18px; }
+.dsh-coopanion-settings .pet-actions { display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
+.dsh-coopanion-settings .pet-status { display:inline-flex; align-items:center; gap:8px; font-size:14px; }
+.dsh-coopanion-settings .pet-error { color:var(--dsw-alias-state-error-primary); white-space:pre-wrap; overflow-wrap:anywhere; }
+.dsh-coopanion-settings .pet-feedback { min-height:22px; font-size:12px; }
+.dsh-coopanion-settings .pet-number { width:104px; flex:none; }
+@media(max-width:480px) { .dsh-coopanion-settings .pet-row { align-items:flex-start; } .dsh-coopanion-settings .pet-card { padding:12px; } }
+
+.dsh-coopanion-settings select.pet-number { color:inherit; background:var(--dsw-alias-settings-card-fill); border:1px solid var(--dsw-alias-settings-card-stroke); border-radius:8px; padding:8px; font:inherit; }

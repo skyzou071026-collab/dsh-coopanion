@@ -1,0 +1,9 @@
+- insert:
+    - id: dsh-coopanion
+      name: '@takboo/dsh-coopanion'
+      config:
+        autoStart: true
+        roam: true
+        size: 150
+        notifications: true
+        bubbleDurationMs: 12000
